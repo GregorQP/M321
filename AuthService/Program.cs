@@ -12,7 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 var app = builder.Build();
 
-string key = "supersecretkey12345";
+string key = "supersecretkey12345678901234567890";
 var signingKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key));
 
 app.MapPost("/login", (HttpRequest request) =>
@@ -33,4 +33,4 @@ app.MapPost("/login", (HttpRequest request) =>
     return Results.Ok(new { token = tokenString });
 });
 
-app.Run();
+app.Run("http://0.0.0.0:80");

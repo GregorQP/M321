@@ -19,7 +19,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ValidateAudience = false,
             ValidateLifetime = true,
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecretkey12345"))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecretkey12345678901234567890"))
         };
     });
 builder.Services.AddAuthorization();
@@ -51,12 +51,15 @@ app.MapGet("/data", [Microsoft.AspNetCore.Authorization.Authorize]() =>
 });
 
 // POST: Neuen Eintrag speichern
-app.MapPost("/data", [Microsoft.AspNetCore.Authorization.Authorize()] (string item) =>
+app.MapPost("/data", [Microsoft.AspNetCore.Authorization.Authorize()] (DataItem item) =>
 {
     var items = ReadData();
-    items.Add(item);
+    items.Add(item.Item);
     WriteData(items);
-    return Results.Ok(new { status = "added", item });
+    return Results.Ok(new { status = "added", item.Item });
 });
 
-app.Run();
+app.Run("http://0.0.0.0:80");
+
+
+public record DataItem(string Item);
