@@ -2,6 +2,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using System.Text.Json;
+using System.Collections.Generic;
+using System.IO;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 
 var builder = WebApplication.CreateBuilder();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -16,6 +22,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("supersecretkey12345"))
         };
     });
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 app.UseAuthentication();
