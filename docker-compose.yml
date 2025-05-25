@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  authservice:
+    build: ./AuthService
+    ports:
+      - "5001:80"
+
+  dataservice:
+    build: ./DataService
+    ports:
+      - "5002:80"
